@@ -1,0 +1,2 @@
+# Install the project and its app dependencies from the repository root.
+.[app]

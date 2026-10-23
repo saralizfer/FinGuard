@@ -1,0 +1,12 @@
+{
+  "income": 4000,
+  "essential_expenses": 2000,
+  "discretionary_expenses": 500,
+  "savings": 4500,
+  "debt_balance": 3000,
+  "minimum_debt_payment": 150,
+  "savings_contribution": 400,
+  "target_months": 3,
+  "apr": 24,
+  "additional_debt_payment": 0
+}
