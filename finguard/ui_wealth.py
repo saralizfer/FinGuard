@@ -5,7 +5,8 @@ from math import isfinite
 import plotly.graph_objects as go
 import streamlit as st
 
-from finguard.ui_common import card, chart_style, money, prose
+from finguard.ui_common import card, chart_style, money, prose, render_feedback
+from finguard.feedback import wealth_feedback
 from finguard.wealth import project
 from finguard.simulation import simulate
 
@@ -51,9 +52,11 @@ def render_wealth(profile, assessment, emergency, text):
     except ValueError:
         st.error(text["simulation_invalid"])
         return
-    if monthly > max(0, assessment.unallocated_cash - feasible_extra):
+    capacity = max(0, assessment.unallocated_cash - feasible_extra)
+    if monthly > capacity:
         st.warning(text["capacity_warning"])
     final = assumed[-1]
+    render_feedback(wealth_feedback(final.value, goal, monthly, capacity), text)
     reached = next((row.month for row in assumed if row.value >= goal), None)
     items = [("projection_end", money(final.value)), ("contributed", money(final.contributed)),
              ("growth", money(final.value - final.contributed)),

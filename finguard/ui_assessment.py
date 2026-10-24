@@ -3,16 +3,13 @@ from dataclasses import replace
 import plotly.graph_objects as go
 import streamlit as st
 from finguard.assessment import assess
-from finguard.ui_common import card, money, prose
+from finguard.feedback import assessment_feedback
+from finguard.ui_common import card, money, prose, render_feedback
 
 
 def render_assessment(profile, result, text):
     st.subheader(text["snapshot"])
-    with st.container(border=True):
-        positive = result.unallocated_cash >= 0
-        prose(f"### :material/{'check_circle' if positive else 'info'}: {text['positive_title' if positive else 'negative_title']}")
-        prose(text["positive_summary" if positive else "negative_summary"].format(
-            amount=money(abs(result.unallocated_cash))))
+    render_feedback(assessment_feedback(profile, result), text)
     row = st.columns(3)
     with row[0]:
         card(text["cash_flow"], money(result.cash_flow), help_text=text["cash_help"])

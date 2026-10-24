@@ -12,6 +12,14 @@ def prose(value: str) -> None:
     st.markdown(value.replace("$", r"\$"))
 
 
+def render_feedback(insights, text: dict) -> None:
+    with st.container(border=True):
+        st.subheader(text["feedback_title"], icon=":material/lightbulb:")
+        for insight in insights:
+            prose(text[insight.explanation].format(**insight.values))
+            prose(f"**{text['feedback_next']}:** " + text[insight.next_step].format(**insight.values))
+
+
 def card(label: str, value: str, help_text: str | None = None) -> None:
     with st.container(border=True, height="stretch"):
         # A native Markdown heading wraps rather than ellipsizing like metric labels.

@@ -8,7 +8,8 @@ import streamlit as st
 
 from finguard.recovery import STRATEGIES, compare_strategies
 from finguard.simulation import Shock, simulate
-from finguard.ui_common import card, chart_style, money
+from finguard.feedback import emergency_feedback, recovery_feedback
+from finguard.ui_common import card, chart_style, money, render_feedback
 
 cached_simulate = st.cache_data(max_entries=64, show_spinner=False, scope="session")(simulate)
 cached_compare = st.cache_data(max_entries=64, show_spinner=False, scope="session")(compare_strategies)
@@ -56,6 +57,7 @@ def render_emergency(profile, shock, horizon, text):
         st.error(text["simulation_invalid"])
         return None
     end = result.months[-1]
+    render_feedback(emergency_feedback(result), text)
     shock_total = shock.expense + (profile.income * shock.income_reduction + shock.essential_increase) * shock.duration
     entries = [
         ("initial_savings", money(profile.savings)), ("shock_total", money(shock_total)),
@@ -134,6 +136,7 @@ def render_recovery(profile, shock, horizon, text):
                         text["interest_accrued"]: money(result.total_interest),
                         text["borrowing"]: money(result.total_borrowing)})
     st.dataframe(pd.DataFrame(summary), hide_index=True, alt=text["tabs"][3])
+    render_feedback(recovery_feedback(results), text)
     st.caption(text["interest_note"])
     st.caption(text["recovery_definition"])
     for attribute, title in (("savings", "comparison_savings"), ("debt", "comparison_debt")):

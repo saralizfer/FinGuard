@@ -1,6 +1,7 @@
 """Interface copy, kept separate from the financial model."""
 
 from finguard.product_copy import EN, ES
+from finguard.feedback_copy import EN as FEEDBACK_EN, ES as FEEDBACK_ES
 
 TEXT = {
     "en": {
@@ -205,3 +206,5 @@ TEXT["es"].update({
 
 TEXT["en"].update(EN)
 TEXT["es"].update(ES)
+TEXT["en"].update(FEEDBACK_EN)
+TEXT["es"].update(FEEDBACK_ES)
