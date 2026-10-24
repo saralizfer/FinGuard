@@ -1,0 +1,11 @@
+.venv/
+.qa-venv/
+.qa-browsers/
+.qa-audit-cache/
+build/
+.publish/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.streamlit/secrets.toml
+.env
